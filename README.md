@@ -4,16 +4,7 @@
 
 <div align="center">
 
-
-**A powerful web-based graphical user interface for FFmpeg functionalities**
-
-[
-[
-[
-[
-[
-
-[Features](#features) -  [Getting Started](#getting-started) -  [Usage](#usage) -  [Modules](#modules) -  [Contributing](#contributing)
+**A powerful web-based graphical user mastersoft interface for FFmpeg tasks** <br />
 
 </div>
 
@@ -250,9 +241,12 @@ For questions, issues, or feature requests:
 ***
 
 <div align="center">
-
+<p>
 **Made with ❤️ by MacMilling Computer Software Entertainment Technologies Lit.**
-
-⭐ Star this repository if you find it helpful!
-
+<br />
+⭐ Star this repository if you find it lit lit hammer!
+</p>
+<br />
+<big>🔥 🔥 🔨</big> <br />
+<i>(Seal of Quality)</i>
 </div>

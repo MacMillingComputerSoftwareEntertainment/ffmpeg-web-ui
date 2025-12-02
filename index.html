@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg Web-UI - MacMilling Computer Software Entertainment Technologies</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <img src="https://github.com/MacMillingComputerSoftwareEntertainment/.github/blob/0ed7278da9cc4fdf982616c4f17e369c75f34aea/profile/docs/logo_macmilling.png?raw=true" alt="MacMilling Logo">
+            <h2 class="app-title">FFmpeg Web-UI</h2>
+            <p class="vendor-info">MacMilling Computer Software Entertainment Technologies Lit.</p>
+        </div>
+
+        <nav class="nav-tree">
+            <div class="tree-section-title">Modules</div>
+            <ul>
+                <li class="tree-item">
+                    <a href="#frames-extract" class="tree-item-content active" id="navFramesExtract">
+                        <span class="tree-icon">🎬</span>
+                        <span class="tree-label">Frames Extract</span>
+                        <span class="tree-badge">Active</span>
+                    </a>
+                </li>
+                <li class="tree-item">
+                    <a href="#" class="tree-item-content">
+                        <span class="tree-icon">✂️</span>
+                        <span class="tree-label">Video Trimmer</span>
+                        <span class="tree-badge soon">Soon</span>
+                    </a>
+                </li>
+                <li class="tree-item">
+                    <a href="#" class="tree-item-content">
+                        <span class="tree-icon">🔄</span>
+                        <span class="tree-label">Format Converter</span>
+                        <span class="tree-badge soon">Soon</span>
+                    </a>
+                </li>
+                <li class="tree-item">
+                    <a href="#" class="tree-item-content">
+                        <span class="tree-icon">🔊</span>
+                        <span class="tree-label">Audio Extractor</span>
+                        <span class="tree-badge soon">Soon</span>
+                    </a>
+                </li>
+                <li class="tree-item">
+                    <a href="#" class="tree-item-content">
+                        <span class="tree-icon">📊</span>
+                        <span class="tree-label">Video Analyzer</span>
+                        <span class="tree-badge soon">Soon</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tree-section-title" style="margin-top: 24px;">Settings</div>
+            <ul>
+                <li class="tree-item">
+                    <a href="#" class="tree-item-content">
+                        <span class="tree-icon">⚙️</span>
+                        <span class="tree-label">Preferences</span>
+                    </a>
+                </li>
+                <li class="tree-item">
+                    <a href="#" class="tree-item-content">
+                        <span class="tree-icon">ℹ️</span>
+                        <span class="tree-label">About</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="content-header">
+            <h1>Frames Extract</h1>
+            <p>Extract video frames from your video files with customizable intervals and settings</p>
+        </header>
+
+        <div class="content-body">
+            <!-- Video Files Section -->
+            <div class="panel">
+                <h2 class="panel-title">
+                    📁 Video Files
+                </h2>
+                
+                <input type="file" id="fileInput" accept="video/*" multiple>
+                <button class="btn btn-secondary" id="addFilesBtn">
+                    <span>➕</span>
+                    Add Video Files
+                </button>
+
+                <div class="file-list" id="fileList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎥</div>
+                        <p>No video files added yet</p>
+                        <p style="font-size: 12px; margin-top: 4px;">Click "Add Video Files" to get started</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extraction Settings -->
+            <div class="panel">
+                <h2 class="panel-title">
+                    ⚙️ Extraction Settings
+                </h2>
+
+                <div class="form-group">
+                    <label class="form-label">Extraction Mode</label>
+                    <div class="preset-grid" id="presetGrid">
+                        <div class="preset-card" data-mode="all">
+                            <div class="preset-card-title">Extract All Frames</div>
+                            <div class="preset-card-desc">Every single frame</div>
+                        </div>
+                        <div class="preset-card" data-mode="fps-1">
+                            <div class="preset-card-title">1 Frame/Second</div>
+                            <div class="preset-card-desc">One frame every second</div>
+                        </div>
+                        <div class="preset-card selected" data-mode="interval-30">
+                            <div class="preset-card-title">Every 30 Seconds</div>
+                            <div class="preset-card-desc">Time-based interval</div>
+                        </div>
+                        <div class="preset-card" data-mode="interval-60">
+                            <div class="preset-card-title">Every 1 Minute</div>
+                            <div class="preset-card-desc">60 second interval</div>
+                        </div>
+                        <div class="preset-card" data-mode="total-25">
+                            <div class="preset-card-title">25 Frames Total</div>
+                            <div class="preset-card-desc">Evenly distributed</div>
+                        </div>
+                        <div class="preset-card" data-mode="custom">
+                            <div class="preset-card-title">Custom Settings</div>
+                            <div class="preset-card-desc">Define your own</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="customSettingsGroup" style="display: none;">
+                    <label class="form-label">Custom Interval</label>
+                    <select class="form-control" id="customIntervalType">
+                        <option value="seconds">Interval (Seconds)</option>
+                        <option value="frames">Frame Count</option>
+                        <option value="total">Total Frames</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customValueGroup" style="display: none; margin-top: 12px;">
+                    <label class="form-label" id="customValueLabel">Interval Value</label>
+                    <input type="number" class="form-control" id="customValue" min="1" value="30">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Output Format</label>
+                    <select class="form-control" id="outputFormat">
+                        <option value="png">PNG (Lossless)</option>
+                        <option value="jpg">JPEG (Compressed)</option>
+                        <option value="webp">WebP (Modern)</option>
+                        <option value="bmp">BMP (Uncompressed)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Image Quality (for JPEG/WebP)</label>
+                    <input type="range" class="form-control" id="imageQuality" min="1" max="31" value="2" style="cursor: pointer;">
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">
+                        <span>High (1)</span>
+                        <span id="qualityValue">2</span>
+                        <span>Low (31)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Settings -->
+            <div class="panel">
+                <h2 class="panel-title">
+                    💾 Output Settings
+                </h2>
+
+                <div class="form-group">
+                    <label class="form-label">Destination Folder Name</label>
+                    <input type="text" class="form-control" id="destinationFolder" value="extracted_frames" placeholder="Enter folder name">
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="createSubfolders" checked>
+                        <label for="createSubfolders" style="cursor: pointer;">Create subfolders for each video file</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Frame Naming Pattern</label>
+                    <select class="form-control" id="namingPattern">
+                        <option value="frame_%04d">frame_0001, frame_0002...</option>
+                        <option value="%s_frame_%04d">videoname_frame_0001...</option>
+                        <option value="%s_%04d">videoname_0001, videoname_0002...</option>
+                        <option value="timestamp_%04d">timestamp_0001...</option>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="startExtractionBtn" disabled>
+                        <span>🚀</span>
+                        Start Extraction
+                    </button>
+                    <button class="btn btn-secondary" id="clearAllBtn">
+                        <span>🗑️</span>
+                        Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="panel progress-section" id="progressSection">
+                <h2 class="panel-title">
+                    ⏳ Extraction Progress
+                </h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
+                <p class="progress-text" id="progressText">Initializing extraction...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="panel results-section" id="resultsSection">
+                <h2 class="panel-title">
+                    ✅ Extraction Complete
+                </h2>
+                <p style="color: var(--color-text-secondary); margin-bottom: 16px;">Frame extraction completed successfully!</p>
+                
+                <div class="result-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalFilesProcessed">0</div>
+                        <div class="stat-label">Files Processed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalFramesExtracted">0</div>
+                        <div class="stat-label">Frames Extracted</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalDuration">0s</div>
+                        <div class="stat-label">Total Time</div>
+                    </div>
+                </div>
+
+                <div id="zipDownloadSection" style="margin-top: 24px;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">Download Options</h3>
+                    
+                    <div id="individualZipsContainer" style="margin-bottom: 16px;">
+                        <!-- Individual ZIP buttons will be inserted here -->
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="downloadAllZipBtn">
+                            <span>📦</span>
+                            Download All as Single ZIP
+                        </button>
+                        <button class="btn btn-secondary" id="newExtractionBtn">
+                            <span>🔄</span>
+                            New Extraction
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

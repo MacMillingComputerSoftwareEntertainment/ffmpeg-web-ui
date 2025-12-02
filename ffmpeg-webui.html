@@ -1056,25 +1056,27 @@
                                         
                                         framesExtracted++;
                                         
-                                        // Update progress
-                                        const fileProgress = (index / framesToExtract.length) * 100;
-                                        const totalProgress = ((currentIndex - 1) / totalFiles * 100) + (fileProgress / totalFiles);
-                                        progressBar.style.width = totalProgress + '%';
-                                        progressText.textContent = `Processing ${videoFile.name} - Frame ${index + 1}/${framesToExtract.length}`;
+                                        // Update progress (batched every 5 frames for better performance)
+                                        if (index % 5 === 0 || index === framesToExtract.length - 1) {
+                                            const fileProgress = (index / framesToExtract.length) * 100;
+                                            const totalProgress = ((currentIndex - 1) / totalFiles * 100) + (fileProgress / totalFiles);
+                                            progressBar.style.width = totalProgress + '%';
+                                            progressText.textContent = `Processing ${videoFile.name} - Frame ${index + 1}/${framesToExtract.length}`;
+                                        }
                                     }
                                     
-                                    // Small delay between frames to prevent browser freezing
-                                    setTimeout(() => extractNextFrame(index + 1), 50);
+                                    // Reduced delay for faster processing
+                                    setTimeout(() => extractNextFrame(index + 1), 10);
                                 }, mimeType, quality);
                             } catch (error) {
                                 console.error('Error extracting frame:', error);
-                                setTimeout(() => extractNextFrame(index + 1), 50);
+                                setTimeout(() => extractNextFrame(index + 1), 10);
                             }
                         };
 
                         video.onerror = () => {
                             console.error('Error seeking video');
-                            setTimeout(() => extractNextFrame(index + 1), 50);
+                            setTimeout(() => extractNextFrame(index + 1), 10);
                         };
                     }
                 };
